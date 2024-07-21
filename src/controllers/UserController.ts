@@ -18,7 +18,7 @@ export class UserController {
         }
 
         if(!user.email ){
-            return response.status(400).json({ message: 'Bad request! Email obrigatório'})
+            return response.status(400).json({ message: 'Bad request! E-mail obrigatório'})
         }
         
 
