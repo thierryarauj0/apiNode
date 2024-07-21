@@ -46,7 +46,7 @@ describe('UserController', () => {
         const mockResponse = makeMockResponse();
         userController.createUser(mockRequest, mockResponse);
         expect(mockResponse.state.status).toBe(400);
-        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! E-mail obrigatório' }); // Corrigido aqui
+        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! E-mail obrigatório' }); 
     });
     
 
@@ -68,6 +68,16 @@ describe('UserController', () => {
         expect(mockResponse.state.status).toBe(200);
         expect(mockResponse.state.json).toMatchObject({ message: 'Usuário deletado' });
     });
+
+    it('Deve retornar erro quando o email não é fornecido', () => {
+        const mockRequest = { body: {} } as Request;
+        const mockResponse = makeMockResponse();
+        userController.deleteUser(mockRequest, mockResponse);
+        expect(mockResponse.state.status).toBe(400);
+        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! E-mail obrigatório' });
+    });
+
+  
 
    
 
