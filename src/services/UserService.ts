@@ -28,8 +28,15 @@ export class UserService{
         console.log('Db atualizado' , this.db)
 
     }   
+    
     getAllUsers = () => {
         return this.db
+    }
+
+    deleteUser = (email: string) => {
+        const initialLength = this.db.length;
+        this.db = this.db.filter(user => user.email !== email);
+        return this.db.length !== initialLength;
     }
     
 }

@@ -6,7 +6,8 @@ import { makeMockResponse } from "../__mocks__/mockResponse.mock";
 describe('UserController', () => {
     const mockUserService: Partial<UserService> = {
         createUser: jest.fn(),
-        getAllUsers: jest.fn().mockReturnValue([{ name: 'thi', email: 'thi@test.com' }])
+        getAllUsers: jest.fn().mockReturnValue([{ name: 'thi', email: 'thi@test.com' }]),
+        deleteUser: jest.fn().mockReturnValue(true)
     }
     
     const userController = new UserController(mockUserService as UserService);
@@ -45,8 +46,9 @@ describe('UserController', () => {
         const mockResponse = makeMockResponse();
         userController.createUser(mockRequest, mockResponse);
         expect(mockResponse.state.status).toBe(400);
-        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! Email obrigatório' });
+        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! E-mail obrigatório' }); // Corrigido aqui
     });
+    
 
     it('Deve retornar todos os usuários', () => {
         const mockRequest = {} as Request;
@@ -56,4 +58,18 @@ describe('UserController', () => {
         expect(mockResponse.state.json).toEqual([{ name: 'thi', email: 'thi@test.com' }]);
         expect(mockUserService.getAllUsers).toHaveBeenCalled();
     });
+
+    it('Deve deletar um usuário existente', () => {
+        const mockRequest = {
+            body: { email: 'thi@test.com' }
+        } as Request;
+        const mockResponse = makeMockResponse();
+        userController.deleteUser(mockRequest, mockResponse);
+        expect(mockResponse.state.status).toBe(200);
+        expect(mockResponse.state.json).toMatchObject({ message: 'Usuário deletado' });
+    });
+
+   
+
+    
 });
