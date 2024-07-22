@@ -2,12 +2,7 @@ import {Request , Response} from 'express'
 import {sign} from 'jsonwebtoken'
 
 
-const user = {
-    id_user:'12345',
-    name:'Thierry Araujo',
-    email:'thi@dio.com',
-    password:'password'
-}
+
 
 export class LoginController{
 
