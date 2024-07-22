@@ -1,28 +1,26 @@
-import {Request , Response} from 'express'
-import {sign} from 'jsonwebtoken'
-import { UserService } from '../services/UserService'
+import { Request, Response } from 'express';
+import { UserService } from '../services/UserService';
 
+export class LoginController {
+    userService: UserService;
 
-
-
-export class LoginController{
-
-userService: UserService
-
-    constructor(
-        userService = new UserService() 
-    ){
-        this.userService = userService
+    constructor(userService = new UserService()) {
+        this.userService = userService;
     }
 
-    login = async (request:Request , response:Response ) => {
+    login = async (request: Request, response: Response) => {
+        const { email, password } = request.body;
 
-    const {email, password } = request.body
-       
-    const token = await this.userService.getToken(email , password)
+        try {
+            const token = await this.userService.getToken(email, password);
 
-        
-        return response.status(200).json({token})
+            if (!token) {
+                return response.status(500).json({ message: 'token vazio' });
+            }
+
+            return response.status(200).json({ token });
+        } catch (error) {
+            return response.status(500).json({ message: 'Email/Password invalidos' });
+        }
     }
-
 }
