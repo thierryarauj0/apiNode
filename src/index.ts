@@ -1,5 +1,7 @@
 import express, {Request, Response} from 'express';
 import { router } from './routes';
+import 'reflect-metadata'
+import { AppDataSource } from './database';
 
 const db = {
     name:"renata",
@@ -8,6 +10,12 @@ const db = {
 
 
 const server = express();
+
+AppDataSource.initialize()
+    .then(() => {
+      console.log('Datas Source initialized successfully')
+    })
+    .catch((error) => console.log(error))
 
 server.use(express.json())
 server.use(router)
