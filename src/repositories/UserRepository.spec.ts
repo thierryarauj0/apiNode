@@ -1,7 +1,9 @@
 import { UserRepository } from './UserRepository';
 import { User } from '../entities/User';
-import { getMockEntityManager } from '../__mocks__/mockEntityManager.mock';
 import { EntityManager } from 'typeorm';
+
+// Mock do EntityManager
+const getMockEntityManager = jest.fn();
 
 describe('UserRepository', () => {
     let userRepository: UserRepository;
@@ -9,40 +11,40 @@ describe('UserRepository', () => {
 
     const mockUser: User = {
         id_user: '1',
-        name: 'thi',
-        email: 'thi@test.com',
+        name: 'Thierry',
+        email: 'thierry@test.com',
         password: 'senha123',
     };
 
-    beforeAll(async () => {
-        managerMock = await getMockEntityManager({
-            safeReturn: mockUser
-        });
+    beforeEach(() => {
+        managerMock = {
+            save: jest.fn().mockResolvedValue(mockUser),
+            findOne: jest.fn().mockResolvedValue(mockUser),
+            delete: jest.fn().mockResolvedValue({ affected: 1 })
+        };
         userRepository = new UserRepository(managerMock as EntityManager);
     });
 
-    it('should create user', async () => {
-        const response = await userRepository.createUser(mockUser)
-        expect(managerMock.save).toHaveBeenCalled()
-        expect(response).toMatchObject(mockUser)
-         
-     })
+    it('should create a user successfully', async () => {
+        const response = await userRepository.createUser(mockUser);
+        expect(managerMock.save).toHaveBeenCalled();
+        expect(managerMock.save).toHaveBeenCalledWith(mockUser);
+        expect(response).toEqual(mockUser);
+    });
 
-    it('should retrieve user by id', async () => {
-        managerMock.findOne = jest.fn().mockResolvedValue(mockUser);
-        const user = await userRepository.getUser('1');
-        expect(managerMock.findOne).toHaveBeenCalledWith(User, { where: { user_id: '1' } });
+    it('should retrieve a user by email', async () => {
+        const user = await userRepository.getUser(mockUser.email);
+        expect(managerMock.findOne).toHaveBeenCalled();
+        expect(managerMock.findOne).toHaveBeenCalledWith(User, { where: { email: mockUser.email } });
         expect(user).toEqual(mockUser);
     });
 
-    // it('should update user information', async () => {
-    //     const updateData = { name: 'newName' };
-    //     managerMock.findOne = jest.fn().mockResolvedValue(mockUser);
-    //     managerMock.save = jest.fn().mockResolvedValue({...mockUser, ...updateData});
+    it('should delete a user successfully', async () => {
+        const response = await userRepository.deleteUser(mockUser.email);
+        expect(managerMock.delete).toHaveBeenCalled();
+        expect(managerMock.delete).toHaveBeenCalledWith(User, { email: mockUser.email });
+        expect(response).toBe(true);
+    });
 
-    //     const updatedUser = await userRepository.updateUser('1', updateData);
-    //     expect(managerMock.save).toHaveBeenCalledWith({...mockUser, ...updateData});
-    //     expect(updatedUser.name).toEqual('newName');
-    // });
+   
 });
-

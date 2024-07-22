@@ -1,5 +1,5 @@
-import { Request, Response } from 'express'
-import { UserService } from '../services/UserService'
+import { Request, Response } from 'express';
+import { UserService } from '../services/UserService';
 
 export class UserController {
     userService: UserService;
@@ -9,33 +9,35 @@ export class UserController {
     }
 
     createUser = (request: Request, response: Response): Response => {
-        const User = request.body;
+        const user = request.body;
 
-        if (!User.name || !User.email || !User.password) {
-            return response.status(400).json({ message: 'Bad request! Todos os campos são obrigatórios' });
+        if (!user.name || !user.email || !user.password) {
+            return response.status(400).json({ message: 'Bad request! Todos os campos são obrigatórios.' });
         }
 
-     
-
-        this.userService.createUser(User.name, User.email , User.password);
-        return response.status(201).json({ message: 'Usuário criado' });
+        this.userService.createUser(user.name, user.email, user.password);
+        return response.status(201).json({ message: 'Usuário criado com sucesso.' });
     }
 
-    getUser = (request: Request, response: Response) => {
-        return response.status(200)
+    getUserById = async (request: Request, response: Response) => {
+        const { id } = request.params;
+
+        const user = await this.userService.getUserById(id);
+        if (user) {
+            return response.status(200).json(user);
+        } else {
+            return response.status(404).json({ message: 'Usuário não encontrado.' });
+        }
     }
 
-    // deleteUser = (request: Request, response: Response) => {
-    //     const { email } = request.body;
-    //     if (!email) {
-    //         return response.status(400).json({ message: 'Bad request! E-mail obrigatório' });
-    //     }
+    deleteUser = async (request: Request, response: Response) => {
+        const { id } = request.params;
 
-    //     const success = this.userService.deleteUser(email);
-    //     if (success) {
-    //         return response.status(200).json({ message: 'Usuário deletado' });
-    //     } else {
-    //         return response.status(404).json({ message: 'Usuário não encontrado' });
-    //     }
-    // }
+        const success = await this.userService.deleteUser(id);
+        if (success) {
+            return response.status(200).json({ message: 'Usuário deletado com sucesso.' });
+        } else {
+            return response.status(404).json({ message: 'Usuário não encontrado.' });
+        }
+    }
 }
