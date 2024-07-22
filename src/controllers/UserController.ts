@@ -19,16 +19,16 @@ export class UserController {
         return response.status(201).json({ message: 'Usuário criado com sucesso.' });
     }
 
-    getUserById = async (request: Request, response: Response) => {
-        const { id } = request.params;
+    // getUserById = async (request: Request, response: Response) => {
+    //     const { id } = request.params;
 
-        const user = await this.userService.getUserById(id);
-        if (user) {
-            return response.status(200).json(user);
-        } else {
-            return response.status(404).json({ message: 'Usuário não encontrado.' });
-        }
-    }
+    //     const user = await this.userService.getUserById(id);
+    //     if (user) {
+    //         return response.status(200).json(user);
+    //     } else {
+    //         return response.status(404).json({ message: 'Usuário não encontrado.' });
+    //     }
+    // }
 
     deleteUser = async (request: Request, response: Response) => {
         const { id } = request.params;
