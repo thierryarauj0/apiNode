@@ -22,6 +22,7 @@ describe('UserRepository', () => {
     
     it('should create user', async () => {
        await userRepository.createUser(mockUser)
+       expect(managerMock.save).toHaveBeenCalled()
         
     })
 })
