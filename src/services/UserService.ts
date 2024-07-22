@@ -1,6 +1,7 @@
 import { UserRepository } from '../repositories/UserRepository';
 import { AppDataSource } from "../database";
 import { User } from "../entities/User";
+import { sign } from 'jsonwebtoken';
 
 export class UserService {
     getUserById(id: string) {
@@ -33,9 +34,26 @@ export class UserService {
 
     }
 
-    getToken = async (email:string , password:string) => {
+    getToken = async (email:string , password:string): Promise<string> => {
         const user = await this.getAuthenticatedUser(email,password)
 
-        return user?.id_user
+        if (!user) {
+            throw new Error('Invalid email or password')
+        }
+
+        const tokenData = {
+            name: user?.name,
+            email: user?.email,
+            id: user?.id_user
+        }
+    const tokenKey = '123456789'
+
+    const tokenOptions = {
+        subject: user?.id_user,
+    }
+
+    const token = sign(tokenData, tokenKey, tokenOptions)
+
+    return token
     }
 }

@@ -34,7 +34,7 @@ describe('UserController', () => {
         const mockResponse = makeMockResponse();
         userController.createUser(mockRequest, mockResponse);
         expect(mockResponse.state.status).toBe(201);
-        expect(mockResponse.state.json).toMatchObject({ message: 'Usuário criado' });
+        expect(mockResponse.state.json).toMatchObject({ message: 'Usuário criado com sucesso.' });
     });
 
     it('Deve retornar erro quando o nome não é fornecido', () => {
@@ -49,7 +49,7 @@ describe('UserController', () => {
         const mockResponse = makeMockResponse();
         userController.createUser(mockRequest, mockResponse);
         expect(mockResponse.state.status).toBe(400);
-        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! Todos os campos são obrigatórios' });
+        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! Todos os campos são obrigatórios.' });
     });
 
     it('Deve retornar erro quando o email não é fornecido', () => {
@@ -64,7 +64,7 @@ describe('UserController', () => {
         const mockResponse = makeMockResponse();
         userController.createUser(mockRequest, mockResponse);
         expect(mockResponse.state.status).toBe(400);
-        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! Todos os campos são obrigatórios' }); 
+        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! Todos os campos são obrigatórios.' }); 
     });
     
     it('Deve retornar erro quando o password não é fornecido', () => {
@@ -78,7 +78,7 @@ describe('UserController', () => {
         const mockResponse = makeMockResponse();
         userController.createUser(mockRequest, mockResponse);
         expect(mockResponse.state.status).toBe(400);
-        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! Todos os campos são obrigatórios' }); 
+        expect(mockResponse.state.json).toMatchObject({ message: 'Bad request! Todos os campos são obrigatórios.' }); 
     });
 
  

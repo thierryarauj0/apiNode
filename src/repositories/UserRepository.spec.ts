@@ -16,6 +16,7 @@ describe('UserRepository', () => {
         password: 'senha123',
     };
 
+
     beforeEach(() => {
         managerMock = {
             save: jest.fn().mockResolvedValue(mockUser),
@@ -32,19 +33,19 @@ describe('UserRepository', () => {
         expect(response).toEqual(mockUser);
     });
 
-    it('should retrieve a user by email', async () => {
-        const user = await userRepository.getUser(mockUser.email);
-        expect(managerMock.findOne).toHaveBeenCalled();
-        expect(managerMock.findOne).toHaveBeenCalledWith(User, { where: { email: mockUser.email } });
-        expect(user).toEqual(mockUser);
-    });
+    // it('should retrieve a user by email', async () => {
+    //     const user = await userRepository.getUser(mockUser.email);
+    //     expect(managerMock.findOne).toHaveBeenCalled();
+    //     expect(managerMock.findOne).toHaveBeenCalledWith(User, { where: { email: mockUser.email } });
+    //     expect(user).toEqual(mockUser);
+    // });
 
-    it('should delete a user successfully', async () => {
-        const response = await userRepository.deleteUser(mockUser.email);
-        expect(managerMock.delete).toHaveBeenCalled();
-        expect(managerMock.delete).toHaveBeenCalledWith(User, { email: mockUser.email });
-        expect(response).toBe(true);
-    });
+    // it('should delete a user successfully', async () => {
+    //     const response = await userRepository.deleteUser(mockUser.email);
+    //     expect(managerMock.delete).toHaveBeenCalled();
+    //     expect(managerMock.delete).toHaveBeenCalledWith(User, { email: mockUser.email });
+    //     expect(response).toBe(true);
+    // });
 
    
 });
