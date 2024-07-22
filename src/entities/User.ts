@@ -1,10 +1,11 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { randomUUID } from 'crypto';
-@Entity('users')
 
+
+@Entity('users')
 export class User {
     @PrimaryGeneratedColumn()
-    user_id: string
+    id_user: string
 
     @Column({nullable: false})
     name: string
@@ -20,7 +21,7 @@ export class User {
         email: string,
         password: string) {
 
-            this.user_id = randomUUID()
+            this.id_user = randomUUID()
             this.name = name;
             this.email = email;
             this.password = password;

@@ -8,7 +8,7 @@ describe('UserRepository', () => {
     let managerMock: Partial<EntityManager>;
 
     const mockUser: User = {
-        user_id: '1',
+        id_user: '1',
         name: 'thi',
         email: 'thi@test.com',
         password: 'senha123',
@@ -30,7 +30,7 @@ describe('UserRepository', () => {
 
     it('should retrieve user by id', async () => {
         managerMock.findOne = jest.fn().mockResolvedValue(mockUser);
-        const user = await userRepository.getUserById('1');
+        const user = await userRepository.getUser('1');
         expect(managerMock.findOne).toHaveBeenCalledWith(User, { where: { user_id: '1' } });
         expect(user).toEqual(mockUser);
     });

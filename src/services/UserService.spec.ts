@@ -1,14 +1,29 @@
-import { User, UserService } from "./UserService";
+import {  UserService } from "./UserService";
 
+jest.mock('../repositories/UserRepository')
+jest.mock('../database' , () => {
+    initialize: jest.fn()
+})
+
+const mockUserRepository = require('../repositories/UserRepository')
 
 describe('UserSerivce', () => {
-    
-    const mockDb: User[] = []
-    const userService = new UserService(mockDb);
+    const userService = new UserService(mockUserRepository)
 
-    it('Deve adicionar um novo usuario' , () => {
-        const mockConsole = jest.spyOn(global.console, 'log')
-        userService.createUser('renata', 'renata@dio.com');
-        expect(mockConsole).toHaveBeenCalledWith('Db atualizado', mockDb)
+    it('Deve adicionar um novo usuario' , async () => {
+        mockUserRepository.createUser = jest.fn().mockImplementation(() => Promise.resolve ({
+            id_user:'123456',
+            name:'renata',
+            email:'renata@dio.com',
+            password:'1234'
+        }))
+        const response = await userService.createUser('renata', 'renata@dio.com' , '123');
+        expect(mockUserRepository.createUser).toHaveBeenCalled()
+        expect(response).toMatchObject({
+            id_user:'123456',
+            name:'renata',
+            email:'renata@dio.com',
+            password:'1234'
+        })
     })
 })

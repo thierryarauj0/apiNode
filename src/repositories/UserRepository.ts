@@ -4,7 +4,8 @@ import { User } from "../entities/User";
 export class UserRepository {
     private manager: EntityManager;
 
-    constructor(manager: EntityManager) {
+    constructor(
+        manager: EntityManager) {
         this.manager = manager;
     }
 
@@ -12,8 +13,8 @@ export class UserRepository {
         return await this.manager.save(user);
     }
 
-    getUserById = async (userId: string): Promise<User | null> => {
-        return await this.manager.findOne(User, { where: { user_id: userId } });
+    getUser = async (userId: string): Promise<User | null> => {
+        return await this.manager.findOne(User, { where: { id_user: userId } });
     }
 
     // updateUser = async (userId: string, updateData: Partial<User>): Promise<User> => {

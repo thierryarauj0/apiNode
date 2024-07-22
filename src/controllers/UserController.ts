@@ -9,36 +9,33 @@ export class UserController {
     }
 
     createUser = (request: Request, response: Response): Response => {
-        const user = request.body;
+        const User = request.body;
 
-        if (!user.name) {
-            return response.status(400).json({ message: 'Bad request! Name obrigatório' });
+        if (!User.name || !User.email || !User.password) {
+            return response.status(400).json({ message: 'Bad request! Todos os campos são obrigatórios' });
         }
 
-        if (!user.email) {
-            return response.status(400).json({ message: 'Bad request! E-mail obrigatório' });
-        }
+     
 
-        this.userService.createUser(user.name, user.email);
+        this.userService.createUser(User.name, User.email , User.password);
         return response.status(201).json({ message: 'Usuário criado' });
     }
 
-    getAllUsers = (request: Request, response: Response) => {
-        const users = this.userService.getAllUsers();
-        return response.status(200).json(users);
+    getUser = (request: Request, response: Response) => {
+        return response.status(200)
     }
 
-    deleteUser = (request: Request, response: Response) => {
-        const { email } = request.body;
-        if (!email) {
-            return response.status(400).json({ message: 'Bad request! E-mail obrigatório' });
-        }
+    // deleteUser = (request: Request, response: Response) => {
+    //     const { email } = request.body;
+    //     if (!email) {
+    //         return response.status(400).json({ message: 'Bad request! E-mail obrigatório' });
+    //     }
 
-        const success = this.userService.deleteUser(email);
-        if (success) {
-            return response.status(200).json({ message: 'Usuário deletado' });
-        } else {
-            return response.status(404).json({ message: 'Usuário não encontrado' });
-        }
-    }
+    //     const success = this.userService.deleteUser(email);
+    //     if (success) {
+    //         return response.status(200).json({ message: 'Usuário deletado' });
+    //     } else {
+    //         return response.status(404).json({ message: 'Usuário não encontrado' });
+    //     }
+    // }
 }
