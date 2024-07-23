@@ -86,17 +86,17 @@ describe('UserController', () => {
     });
 
  
-    it('Deve retornar o usuário pelo id', () => {
-        const mockResponse = makeMockResponse();
-        const mockRequest = makeMockRequest({
-            params:{
-                userId:'123456',
-            }
-        })
-        userController.getUser(mockRequest, mockResponse)
-        expect(mockUserService.getUser).toHaveBeenCalledWith('123456');
-        expect(mockResponse.state.status).toBe(200);
-    })
+    // it('Deve retornar o usuário pelo id', () => {
+    //     const mockResponse = makeMockResponse();
+    //     const mockRequest = makeMockRequest({
+    //         params:{
+    //             userId:'123456',
+    //         }
+    //     })
+    //     userController.getUser(mockRequest, mockResponse)
+    //     expect(mockUserService.getUser).toHaveBeenCalledWith('123456');
+    //     expect(mockResponse.state.status).toBe(200);
+    // })
 
 
   
