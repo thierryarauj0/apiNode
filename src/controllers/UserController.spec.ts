@@ -1,11 +1,15 @@
 import { UserController } from "./UserController";
 import { UserService } from '../services/UserService'
-import { Request } from 'express'
+import { Request, Response } from 'express'
 import { makeMockResponse } from "../__mocks__/mockResponse.mock";
+import { makeMockRequest } from "../__mocks__/mockRequest.mock";
 
 const mockUserService = {
 
-    createUser: jest.fn()
+    createUser: jest.fn(),
+    getUser: jest.fn(),
+    deleteUser: jest.fn(),
+    getUserById: jest.fn()
 
 }
 
@@ -82,7 +86,17 @@ describe('UserController', () => {
     });
 
  
-
+    it('Deve retornar o usuário pelo id', () => {
+        const mockResponse = makeMockResponse();
+        const mockRequest = makeMockRequest({
+            params:{
+                userId:'123456',
+            }
+        })
+        userController.getUser(mockRequest, mockResponse)
+        expect(mockUserService.getUser).toHaveBeenCalledWith('123456');
+        expect(mockResponse.state.status).toBe(200);
+    })
 
 
   

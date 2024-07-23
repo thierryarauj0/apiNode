@@ -21,8 +21,8 @@ export class UserService {
     
 
 
-    getUser = (id: string): Promise<User | null> => {
-        return this.userRepository.getUser(id);
+    getUser = async (userId: string): Promise<User | null> => {
+        return this.userRepository.getUser(userId);
     }
 
     deleteUser = (id: string): Promise<boolean> => {

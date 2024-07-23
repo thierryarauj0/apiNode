@@ -43,4 +43,6 @@ describe('UserSerivce', () => {
         jest.spyOn(userService, 'getAuthenticatedUser').mockImplementation(() => Promise.resolve(null))
         await expect(userService.getToken('invalid@dio.com' , '123456)')).rejects.toThrow(new Error('Invalid email or password'))
     })
+
+    
 })

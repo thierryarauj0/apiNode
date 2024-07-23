@@ -7,7 +7,6 @@ const userController = new UserController();
 const loginController = new LoginController();
 
 router.post('/user', userController.createUser);
-// router.get('/user/:id', userController.getUserById);
+router.get('/user/:userId', userController.getUser);
 router.delete('/user/:id', userController.deleteUser);
-
 router.post('/login', loginController.login)
